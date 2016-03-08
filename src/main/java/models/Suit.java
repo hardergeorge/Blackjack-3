@@ -1,7 +1,10 @@
 package models;
 
+import java.io.Serializable;
+
 /**
- * Created by harderg on 3/2/16.
+ * Created by harderg and friends on 3/2/16.
  */
-public class Suit {
+public enum Suit implements Serializable {
+    Hearts, Spades, Diamonds, Clubs
 }
