@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by harderg and friends on 1/26/16.
+ * Created by harderg and friends on 3/2/16.
  */
 public class CardTest {
     @Test
