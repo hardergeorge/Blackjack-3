@@ -1,10 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>BlackJack</title>
 </head>
 <body>
+    <h1>BlackJack!</h1>
+    <p>Welcome to BlackJack. To start playing, click on the Start Game button. If you have any questions, try clicking either the Instructions or Rules button.</p>
+    <button id="rules" type="button" onclick="rulesFunction()">Rules</button>
+    <button id="instruct" type="button" onclick="instructionFunction()">How To Play</button>
+    <button id="startGame" type="button">Play Game!</button>
 
+
+    <p id="demo"></p>
+    <text></text>
+    <br>
+    <text1></text1>
+    <br>
+    <text2></text2>
+    <br>
+    <text3></text3>
+    <br>
+    <text4></text4>
+    <br>
+    <text5></text5>
+    <br>
+    <text6></text6>
+    <br>
+    <text7></text7>
+    <br>
+    <text8></text8>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+            document.getElementById("startGame").onclick = function () {
+                location.href = "Blackjack.html";
+            }
+            function instructionFunction(){
+                $(document).ready(function(){
+                    $("text").text("This is how you play our version of the game:");
+                    $("text1").text("Instruction one...");
+                    $("text2").text("Instruction two... ");
+                    $("text3").text("Instruction three...");
+                    $("text4").text("Instruction four...");
+                    $("text5").text("Instruction five...");
+                    $("text6").text("Instruction six...");
+                    $("text7").text("Instruction seven...");
+                    $("text8").text("Instruction eight...");
+                });
+            }
+            function rulesFunction(){
+                $(document).ready(function(){
+                    $("text").text("Rules...");
+                    $("text1").text("1. Rule");
+                    $("text2").text("2. Rule");
+                    $("text3").text("3. Rule");
+                    $("text4").text("4. Rule");
+                    $("text5").text("5. Rule");
+                    $("text6").text("6. Rule");
+                    $("text7").text("7. Rule");
+                    $("text8").text("Rules...");
+                });
+
+            }
+    </script>
 </body>
 </html>
