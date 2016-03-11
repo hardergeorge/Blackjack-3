@@ -55,6 +55,8 @@ public class Game {
             // Dealer gets a single visible card
             cols.get(0).add(deck.get(deck.size() - 1));
             deck.remove(deck.size() - 1);
+            cols.get(0).add(deck.get(deck.size() - 1));
+            deck.remove(deck.size() - 1);
 
             // Player gets 2 cards
             cols.get(1).add(deck.get(deck.size() - 1));
@@ -67,6 +69,13 @@ public class Game {
         } else {
             // USER CANNOT PLAY; must refresh game
         }
+    }
+
+    // Deals one card to a specific column, i.e. player, dealer, double down
+    // Will
+    public void dealOne (int column) {
+        cols.get(column).add(deck.get(deck.size()-1));
+        deck.remove(deck.size()-1);
     }
 
     public void updateTotals() {
@@ -118,7 +127,7 @@ public class Game {
         return this.cols.get(columnNumber).get(this.cols.get(columnNumber).size()-(1 + j));
     }
 
-    private boolean colHasCards(int colNumber) {
+    public boolean colHasCards(int colNumber) {
         if(this.cols.get(colNumber).size()>0){
             return true;
         }

@@ -30,7 +30,7 @@ public class GameTest {
         assertEquals(200, g.money);
     }
 
-    @Test
+    /*@Test
     public void testGameStart(){
         Game g = new Game();
         g.buildDeck();
@@ -39,7 +39,7 @@ public class GameTest {
         assertEquals(1,g.cols.get(0).size());
         assertEquals(2,g.cols.get(1).size());
         assertEquals(0,g.cols.get(2).size());
-    }
+    }*/
 
     @Test
     public void testDealHand(){
@@ -71,4 +71,23 @@ public class GameTest {
         assertEquals("14Hearts",g.cols.get(1).get(0).toString());
         assertEquals("14Diamonds",g.cols.get(2).get(0).toString());
     }
+
+    @Test
+    public void testDealOne () {
+        Game g = new Game();
+        g.buildDeck();
+        g.shuffle();
+        g.dealOne(0);
+        assertTrue(g.colHasCards(0));
+    }
+
+    @Test
+    public void testNoCards () {
+        Game g = new Game();
+        g.buildDeck();
+        g.shuffle();
+        assertFalse(g.colHasCards(0));
+    }
+
+
 }

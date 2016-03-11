@@ -28,9 +28,18 @@ public class Routes implements ApplicationRoutes {
     public void init(Router router) {  
         
         router.GET().route("/").with(ApplicationController.class, "index");
-        router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
-        
+        //router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
+        ///////////////////////////////////////////////////////////////////////
+        // Blackjack Routes
+        ///////////////////////////////////////////////////////////////////////
+        router.GET().route("/BlackjackStart").with(ApplicationController.class, "start");
+        router.GET().route("/Blackjack").with(ApplicationController.class, "Blackjack");
+        router.GET().route("/game").with(ApplicationController.class, "gameGet");
+
+        router.POST().route("/hit").with(ApplicationController.class, "hitPost");
  
+
+
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
         ///////////////////////////////////////////////////////////////////////    
@@ -40,7 +49,9 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         // Index / Catchall shows index page
         ///////////////////////////////////////////////////////////////////////
-        router.GET().route("/.*").with(ApplicationController.class, "index");
+        //router.GET().route("/.*").with(ApplicationController.class, "index");
+
+
     }
 
 }

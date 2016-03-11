@@ -6,17 +6,16 @@
 <!-- DEALER -->
 <table id = "table">
     <tr class="title">
-        <p>Dealer</p>
-        <td>Column 0</td>
-        <td >Column 1</td>
-        <td >Column 2</td>
-        <td >Column 3</td>
+        <p>Hands</p>
+        <td>Dealer</td>
+        <td >Player</td>
+        <td >Split</td>
     </tr>
 
     <tr><td class="columnOfCards" id="c0">
         <table>
             <tr><td class="cardLocation l0"></td></tr>
-            <tr><td class="cardLocation l1"></td></tr>
+            <!--<tr><td class="cardLocation l1"></td></tr>
             <tr><td class="cardLocation l2"></td></tr>
             <tr><td class="cardLocation l3"></td></tr>
             <tr><td class="cardLocation l4"></td></tr>
@@ -28,7 +27,7 @@
             <tr><td class="cardLocation l10"></td></tr>
             <tr><td class="cardLocation l11"></td></tr>
             <tr><td class="cardLocation l12"></td></tr>
-            <tr><td class="cardLocation l13"></td></tr>
+            <tr><td class="cardLocation l13"></td></tr>-->
         </table>
     </td>
         <td class="columnOfCards" id="c1">
@@ -87,115 +86,17 @@
         </td>
     </tr>
 </table>
-<!-- PLAYER -->
-<table id = "table1">
-    <tr class="title">
-        <p>Player</p>
-        <td>Column 0</td>
-        <td >Column 1</td>
-        <td >Column 2</td>
-        <td >Column 3</td>
-    </tr>
 
-    <tr><td class="columnOfCards" id="c4">
-        <table>
-            <tr><td class="cardLocation l0"></td></tr>
-            <tr><td class="cardLocation l1"></td></tr>
-            <tr><td class="cardLocation l2"></td></tr>
-            <tr><td class="cardLocation l3"></td></tr>
-            <tr><td class="cardLocation l4"></td></tr>
-            <tr><td class="cardLocation l5"></td></tr>
-            <tr><td class="cardLocation l6"></td></tr>
-            <tr><td class="cardLocation l7"></td></tr>
-            <tr><td class="cardLocation l8"></td></tr>
-            <tr><td class="cardLocation l9"></td></tr>
-            <tr><td class="cardLocation l10"></td></tr>
-            <tr><td class="cardLocation l11"></td></tr>
-            <tr><td class="cardLocation l12"></td></tr>
-            <tr><td class="cardLocation l13"></td></tr>
-        </table>
-    </td>
-        <td class="columnOfCards" id="c5">
-            <table>
-                <tr><td class="cardLocation l0"></td></tr>
-                <tr><td class="cardLocation l1"></td></tr>
-                <tr><td class="cardLocation l2"></td></tr>
-                <tr><td class="cardLocation l3"></td></tr>
-                <tr><td class="cardLocation l4"></td></tr>
-                <tr><td class="cardLocation l5"></td></tr>
-                <tr><td class="cardLocation l6"></td></tr>
-                <tr><td class="cardLocation l7"></td></tr>
-                <tr><td class="cardLocation l8"></td></tr>
-                <tr><td class="cardLocation l9"></td></tr>
-                <tr><td class="cardLocation l10"></td></tr>
-                <tr><td class="cardLocation l11"></td></tr>
-                <tr><td class="cardLocation l12"></td></tr>
-                <tr><td class="cardLocation l13"></td></tr>
-            </table>
-        </td>
-        <td class="columnOfCards" id="c6">
-            <table>
-                <tr><td class="cardLocation l0"></td></tr>
-                <tr><td class="cardLocation l1"></td></tr>
-                <tr><td class="cardLocation l2"></td></tr>
-                <tr><td class="cardLocation l3"></td></tr>
-                <tr><td class="cardLocation l4"></td></tr>
-                <tr><td class="cardLocation l5"></td></tr>
-                <tr><td class="cardLocation l6"></td></tr>
-                <tr><td class="cardLocation l7"></td></tr>
-                <tr><td class="cardLocation l8"></td></tr>
-                <tr><td class="cardLocation l9"></td></tr>
-                <tr><td class="cardLocation l10"></td></tr>
-                <tr><td class="cardLocation l11"></td></tr>
-                <tr><td class="cardLocation l12"></td></tr>
-                <tr><td class="cardLocation l13"></td></tr>
-            </table>
-        </td>
-        <td class="columnOfCards" id="c7">
-            <table>
-                <tr><td class="cardLocation l0"></td></tr>
-                <tr><td class="cardLocation l1"></td></tr>
-                <tr><td class="cardLocation l2"></td></tr>
-                <tr><td class="cardLocation l3"></td></tr>
-                <tr><td class="cardLocation l4"></td></tr>
-                <tr><td class="cardLocation l5"></td></tr>
-                <tr><td class="cardLocation l6"></td></tr>
-                <tr><td class="cardLocation l7"></td></tr>
-                <tr><td class="cardLocation l8"></td></tr>
-                <tr><td class="cardLocation l9"></td></tr>
-                <tr><td class="cardLocation l10"></td></tr>
-                <tr><td class="cardLocation l11"></td></tr>
-                <tr><td class="cardLocation l12"></td></tr>
-                <tr><td class="cardLocation l13"></td></tr>
-            </table>
-        </td>
-    </tr>
-</table>
+
 <div id = "panel">
     <button id="qMarkButton"> ? </button>
     <button id="hit">Hit</button>
     <button id="stay">Stay</button>
     <button id="doubleD">Double Down</button>
     <button id="split">Split</button>
-    <!--
-        <BR>Move from column
-        <select id="from_col"  />
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-
-        </select>
-        to column
-        <select id="to_col"  />
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        </select>
-     -->
 
     </div>
+
     <script>
 
     var game;
@@ -265,26 +166,6 @@
             }
         });
 
-     $.each(game.cols[3], function( key, val ) {
-            $( '#c3 .l'+key ).html(val.value + val.suit);
-            if(val.suit == "Hearts")
-            {
-            $('#c3 .l'+key).css("background-color","red");
-            }
-            else if(val.suit == "Diamonds")
-            {
-            $('#c3 .l'+key).css("background-color","yellow");
-            }
-            else if(val.suit == "Clubs")
-            {
-            $('#c3 .l'+key).css("background-color","green");
-            }
-            else
-            {
-            $('#c3 .l'+key).css("background-color","orange");
-            }
-        });
-
         if(game.error == true){
             var div = document.getElementById('Error-div');
             if(div === null){
@@ -312,10 +193,10 @@
     });
 
 
-    $("#dealButton").click(function(){
+    $("#hit").click(function(){
     $.ajax({
       type: "POST",
-      url: "/dealGame",
+      url: "/hit",
       data: JSON.stringify(game),
       success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
             game = data;
