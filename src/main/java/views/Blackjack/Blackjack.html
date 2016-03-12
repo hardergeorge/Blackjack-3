@@ -173,7 +173,7 @@
                 var div = document.createElement('div');
                 div.id = 'Error-div';
                 var text = document.createElement('h4');
-                text.innerHTML = 'Error: You cannot remove that card';
+                text.innerHTML = 'Error: You cannot make that move right now';
                 div.appendChild(text);
                 document.body.appendChild(div);
             }
@@ -197,6 +197,32 @@
     $.ajax({
       type: "POST",
       url: "/hit",
+      data: JSON.stringify(game),
+      success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
+            game = data;
+            display(data);},
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+    });
+    });
+    
+    $("#doubleD").click(function(){
+    $.ajax({
+      type: "POST",
+      url: "/doubleDown",
+      data: JSON.stringify(game),
+      success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
+            game = data;
+            display(data);},
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+    });
+    });
+    
+    $("#split").click(function(){
+    $.ajax({
+      type: "POST",
+      url: "/split",
       data: JSON.stringify(game),
       success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
             game = data;

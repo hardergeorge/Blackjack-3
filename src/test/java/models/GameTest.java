@@ -27,19 +27,19 @@ public class GameTest {
         Game g = new Game();
         g.buildDeck();
         g.shuffle();
-        assertEquals(200, g.money);
+        assertEquals(100, g.money);
     }
 
-    /*@Test
+    @Test
     public void testGameStart(){
         Game g = new Game();
         g.buildDeck();
         g.shuffle();
         g.dealHand();
-        assertEquals(1,g.cols.get(0).size());
+        assertEquals(2,g.cols.get(0).size());
         assertEquals(2,g.cols.get(1).size());
         assertEquals(0,g.cols.get(2).size());
-    }*/
+    }
 
     @Test
     public void testDealHand(){
@@ -49,7 +49,7 @@ public class GameTest {
         g.dealHand();
         assertTrue(g.dealerTotal >= 2);
         assertTrue(g.playerTotal >= 2);
-        assertEquals(0,g.doubleDownTotal);
+        assertEquals(0,g.splitTotal);
     }
 
     @Test
@@ -89,5 +89,39 @@ public class GameTest {
         assertFalse(g.colHasCards(0));
     }
 
+    @Test
+    public void testDoubleDown () {
+        Game g = new Game();
+        g.buildDeck();
+        g.shuffle();
+        g.dealHand();
+
+        int initialCards = g.cols.get(1).size();
+        int initialMoney = g.money;
+
+        g.doubleDown();
+
+        //After double down the player should have one more card and made another bet
+        assertEquals((initialCards + 1), g.cols.get(1).size());
+        assertEquals((initialMoney - 2), g.money);
+    }
+
+    @Test
+    public void testSplit () {
+        Game g = new Game();
+        Card c1 = new Card(10, Suit.Spades);
+        Card c2 = new Card(10, Suit.Clubs);
+
+        g.buildDeck();
+        g.shuffle();
+
+        g.cols.get(1).add(c1);
+        g.cols.get(1).add(c2);
+
+        g.split();
+
+        assertEquals(1, g.cols.get(1).size());
+        assertEquals(1, g.cols.get(2).size());
+    }
 
 }

@@ -10,12 +10,18 @@ import java.util.Random;
 
 public class Game {
 
+    static int BET_SIZE = 2;
+    static int DEALER_COL = 0;
+    static int PLAYER_COL = 1;
+    static int SPLIT_COL = 2;
+
     public boolean error;
+    public boolean hasSplit;
 
     public int money;
     public int dealerTotal;
     public int playerTotal;
-    public int doubleDownTotal;
+    public int splitTotal;
 
     public java.util.List<Card> deck = new ArrayList<>();
 
@@ -24,7 +30,7 @@ public class Game {
     // Start of GAME CLASS FUNCTIONS
 
     public Game() {
-        money = 200;
+        money = 100;
         cols.add(new ArrayList<Card>());
         cols.add(new ArrayList<Card>());
         cols.add(new ArrayList<Card>());
@@ -47,10 +53,10 @@ public class Game {
 
     public void dealHand() {
         if (money > 1) {
-            money = money - 2;
+            money = money - BET_SIZE;
             dealerTotal = 0;
             playerTotal = 0;
-            doubleDownTotal = 0;
+            splitTotal = 0;
 
             // Dealer gets a single visible card
             cols.get(0).add(deck.get(deck.size() - 1));
@@ -76,6 +82,35 @@ public class Game {
     public void dealOne (int column) {
         cols.get(column).add(deck.get(deck.size()-1));
         deck.remove(deck.size()-1);
+    }
+
+    public void doubleDown () {
+        if (cols.get(PLAYER_COL).size() == 2) {
+            dealOne(1);
+            money = money - BET_SIZE;
+            error = false;
+        }
+        else {
+            error = true;
+        }
+    }
+
+    public void split () {
+        if (cols.get(PLAYER_COL).size() == 2) {
+            if (cols.get(PLAYER_COL).get(0).getValue() == cols.get(PLAYER_COL).get(1).getValue()) {
+                hasSplit = true;
+                cols.get(SPLIT_COL).add(cols.get(PLAYER_COL).get(1));
+                cols.get(PLAYER_COL).remove(1);
+                money = money - BET_SIZE;
+                error = false;
+            }
+            else {
+                error = true;
+            }
+        }
+        else {
+            error = true;
+        }
     }
 
     public void updateTotals() {
@@ -104,7 +139,7 @@ public class Game {
                         playerTotal = tempTotal;
                         break;
                     case 2:
-                        doubleDownTotal = tempTotal;
+                        splitTotal = tempTotal;
                         break;
                     default:
                         break;

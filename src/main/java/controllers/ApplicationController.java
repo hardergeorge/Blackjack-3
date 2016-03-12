@@ -57,6 +57,20 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
+    public Result doubleDownPost (Context context, Game g) {
+        if (context.getRequestPath().contains("doubleDown")) {
+            g.doubleDown();
+        }
+        return Results.json().render(g);
+    }
+
+    public Result splitPost (Context context, Game g) {
+        if (context.getRequestPath().contains("split")) {
+            g.split();
+        }
+        return Results.json().render(g);
+    }
+
 
     public Result helloWorldJson() {
         
