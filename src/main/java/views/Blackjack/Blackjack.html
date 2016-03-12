@@ -165,6 +165,12 @@
             $('#c2 .l'+key).css("background-color","orange");
             }
         });
+        
+        if(game.money > 0){
+            var money = game.money;
+            alert("Your money:");
+            alert(money);
+        }
 
         if(game.error == true){
             var div = document.getElementById('Error-div');
