@@ -210,4 +210,28 @@ public class GameTest {
         assertFalse(g.playerWon);
         assertTrue(g.dealerWon);
     }
+
+    @Test
+    public void testResetGame () {
+        Game g = new Game();
+        g.playerWon = true;
+
+        g.buildDeck();
+        g.shuffle();
+        g.dealHand();
+
+        g.resetGame();
+
+        assertEquals(2, g.cols.get(0).size());
+        assertEquals(2, g.cols.get(1).size());
+        assertEquals(0, g.cols.get(2).size());
+        assertEquals(1, g.dealTo);
+
+        assertFalse(g.hasSplit);
+        assertFalse(g.error);
+        assertFalse(g.dealerDone);
+        assertFalse(g.playerWon);
+        assertFalse(g.dealerWon);
+
+    }
 }

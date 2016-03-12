@@ -40,6 +40,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/doubleDown").with(ApplicationController.class, "doubleDownPost");
         router.POST().route("/split").with(ApplicationController.class, "splitPost");
         router.POST().route("/stay").with(ApplicationController.class, "stayPost");
+        router.POST().route("/newhand").with(ApplicationController.class, "newHandPost");
  
 
 

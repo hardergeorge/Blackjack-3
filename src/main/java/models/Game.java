@@ -166,12 +166,39 @@ public class Game {
         }
     }
 
+    public void resetGame () {
+        if (!noWinner()) {
+
+            cols.get(DEALER_COL).clear();
+            cols.get(PLAYER_COL).clear();
+            cols.get(SPLIT_COL).clear();
+
+            deck.clear();
+
+            buildDeck();
+            shuffle();
+
+            error = false;
+            hasSplit = false;
+            dealerDone =false;
+            playerWon = false;
+            dealerWon = false;
+            dealTo = 1;
+
+            dealHand();
+        }
+        else {
+            error = true;
+        }
+    }
+
     public void calculateTotals() {
         Card tempCard;
         int tempTotal, currValue;
         
         for (int i = 0; i < 3; i++) {
             tempTotal = 0;
+
 
             for (int j = 0; j < cols.get(i).size(); j++) {
                
@@ -253,8 +280,7 @@ public class Game {
     public boolean noWinner () {
         if (!playerWon && !dealerWon) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

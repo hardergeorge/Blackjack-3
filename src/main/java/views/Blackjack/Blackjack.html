@@ -89,7 +89,7 @@
 
 
 <div id = "panel">
-    <button id="qMarkButton"> ? </button>
+    <button id="newhand"> New Hand </button>
     <button id="hit">Hit</button>
     <button id="stay">Stay</button>
     <button id="doubleD">Double Down</button>
@@ -269,42 +269,11 @@
       dataType:"json",
     });
     });
-
-
-    function removeCard(colNumber){
-        $.ajax({
-            type: "POST",
-            url: "/removeCard/"+colNumber,
-            data: JSON.stringify(game),
-            success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
-            game = data;
-            display(data);},
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
-        });
-    }
-
-
-    $("#Remove1").click(function(){
-        removeCard(0);
-    });
-    $("#Remove2").click(function(){
-        removeCard(1);
-    });
-    $("#Remove3").click(function(){
-        removeCard(2);
-    });
-    $("#Remove4").click(function(){
-        removeCard(3);
-    });
-
-
-    $("#moveButton").click(function(){
-    var colFrom = $("#from_col").val();
-    var colTo = $("#to_col").val();
+    
+    $("#newhand").click(function(){
     $.ajax({
       type: "POST",
-      url: "/moveCard/"+colFrom+"/"+colTo,
+      url: "/newhand",
       data: JSON.stringify(game),
       success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
             game = data;
@@ -314,6 +283,8 @@
     });
     });
 
+
+    
 
     </script>
 

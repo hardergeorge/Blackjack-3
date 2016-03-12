@@ -86,6 +86,13 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
+    public Result newHandPost (Context context, Game g) {
+        if (context.getRequestPath().contains("newhand")) {
+            g.resetGame();
+        }
+        return Results.json().render(g);
+    }
+
 
     public Result helloWorldJson() {
         
