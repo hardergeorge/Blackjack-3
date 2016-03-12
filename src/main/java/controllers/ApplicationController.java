@@ -52,7 +52,7 @@ public class ApplicationController {
 
     public Result hitPost (Context context, Game g) {
         if (context.getRequestPath().contains("hit")) {
-            g.dealOne(1);
+            g.dealOne(g.dealTo);
         }
         return Results.json().render(g);
     }
@@ -67,6 +67,21 @@ public class ApplicationController {
     public Result splitPost (Context context, Game g) {
         if (context.getRequestPath().contains("split")) {
             g.split();
+        }
+        return Results.json().render(g);
+    }
+
+    public Result stayPost (Context context, Game g) {
+        if (context.getRequestPath().contains("stay")) {
+            if (g.hasSplit && g.dealTo < 2) {
+                g.updateDealTo();
+            }
+            else {
+                g.dealerPlay();
+                if(g.noWinner()) {
+                    g.winner();
+                }
+            }
         }
         return Results.json().render(g);
     }

@@ -28,6 +28,11 @@ public class GameTest {
         g.buildDeck();
         g.shuffle();
         assertEquals(100, g.money);
+        assertEquals(1, g.dealTo);
+
+        assertFalse(g.error);
+        assertFalse(g.hasSplit);
+        assertFalse(g.dealerDone);
     }
 
     @Test
@@ -47,9 +52,9 @@ public class GameTest {
         g.buildDeck();
         g.shuffle();
         g.dealHand();
-        assertTrue(g.dealerTotal >= 2);
-        assertTrue(g.playerTotal >= 2);
-        assertEquals(0,g.splitTotal);
+        assertTrue(g.cols.get(0).size() == 2);
+        assertTrue(g.cols.get(1).size() == 2);
+        assertTrue(g.cols.get(2).size() == 0);
     }
 
     @Test
@@ -103,7 +108,6 @@ public class GameTest {
 
         //After double down the player should have one more card and made another bet
         assertEquals((initialCards + 1), g.cols.get(1).size());
-        assertEquals((initialMoney - 2), g.money);
     }
 
     @Test
@@ -124,4 +128,86 @@ public class GameTest {
         assertEquals(1, g.cols.get(2).size());
     }
 
+    @Test
+    public void testCalculateTotals () {
+        Game g = new Game();
+
+        Card c1 = new Card(12, Suit.Spades);
+        Card c2 = new Card(14, Suit.Clubs);
+        Card c3 = new Card(10, Suit.Hearts);
+        Card c4 = new Card(2, Suit.Diamonds);
+
+        g.cols.get(0).add(c1);
+
+        g.cols.get(1).add(c3);
+        g.cols.get(1).add(c4);
+        g.cols.get(1).add(c2);
+
+        g.cols.get(2).add(c2);
+
+        g.calculateTotals();
+
+        assertEquals(10, g.dealerTotal);
+        assertEquals(13, g.playerTotal);
+        assertEquals(11, g.splitTotal);
+    }
+
+    @Test
+    public void testDealerPlay () {
+        Game g = new Game();
+        g.buildDeck();
+        g.shuffle();
+
+        Card c1 = new Card(2, Suit.Spades);
+        Card c2 = new Card(12, Suit.Clubs);
+
+        g.cols.get(0).add(c1);
+        g.cols.get(0).add(c2);
+
+        g.dealerPlay();
+
+        assertTrue(g.dealerDone);
+    }
+
+    @Test
+    public void testUpdateDealTo () {
+        Game g = new Game();
+
+        g.updateDealTo();
+
+        assertEquals(2, g.dealTo);
+    }
+
+    @Test
+    public void testWinner () {
+        Game g = new Game();
+
+        Card c1 = new Card(12, Suit.Spades);
+        Card c2 = new Card(14, Suit.Clubs);
+        Card c3 = new Card(10, Suit.Hearts);
+        Card c4 = new Card(2, Suit.Diamonds);
+
+        g.hasSplit = true;
+
+        g.cols.get(0).add(c1);
+
+        g.cols.get(1).add(c3);
+        g.cols.get(1).add(c4);
+        g.cols.get(1).add(c2);
+
+        g.cols.get(2).add(c3);
+        g.cols.get(2).add(c4);
+        g.cols.get(2).add(c2);
+
+        g.winner();
+
+        assertTrue(g.playerWon);
+        assertFalse(g.dealerWon);
+
+        g.cols.get(0).add(c3);
+        g.winner();
+
+        assertFalse(g.playerWon);
+        assertTrue(g.dealerWon);
+    }
 }

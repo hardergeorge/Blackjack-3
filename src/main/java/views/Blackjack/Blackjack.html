@@ -178,6 +178,30 @@
                 document.body.appendChild(div);
             }
         }
+        else if(game.playerWon == true){
+            var div = document.getElementById('Error-div');
+            if(div === null){
+                //console.log("Error");
+                var div = document.createElement('div');
+                div.id = 'Error-div';
+                var text = document.createElement('h4');
+                text.innerHTML = 'Congrats! The player won';
+                div.appendChild(text);
+                document.body.appendChild(div);
+            }
+        }
+        else if(game.dealerWon == true){
+            var div = document.getElementById('Error-div');
+            if(div === null){
+                //console.log("Error");
+                var div = document.createElement('div');
+                div.id = 'Error-div';
+                var text = document.createElement('h4');
+                text.innerHTML = 'Sorry, the dealer won';
+                div.appendChild(text);
+                document.body.appendChild(div);
+            }
+        }
         else{
             var div = document.getElementById('Error-div');
             if(div === null){}
@@ -186,6 +210,7 @@
             }
         }
     }
+    
 
     $.getJSON("http://localhost:8080/game", function( data ) {
     display(data);
@@ -223,6 +248,19 @@
     $.ajax({
       type: "POST",
       url: "/split",
+      data: JSON.stringify(game),
+      success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
+            game = data;
+            display(data);},
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+    });
+    });
+    
+    $("#stay").click(function(){
+    $.ajax({
+      type: "POST",
+      url: "/stay",
       data: JSON.stringify(game),
       success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
             game = data;
