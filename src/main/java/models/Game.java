@@ -10,12 +10,22 @@ import java.util.Random;
 
 public class Game {
 
+    static int BET_SIZE = 2;
+    static int DEALER_COL = 0;
+    static int PLAYER_COL = 1;
+    static int SPLIT_COL = 2;
+
     public boolean error;
+    public boolean hasSplit;
+    public boolean dealerDone;
+    public boolean playerWon;
+    public boolean dealerWon;
 
     public int money;
     public int dealerTotal;
     public int playerTotal;
-    public int doubleDownTotal;
+    public int splitTotal;
+    public int dealTo;
 
     public java.util.List<Card> deck = new ArrayList<>();
 
@@ -24,11 +34,16 @@ public class Game {
     // Start of GAME CLASS FUNCTIONS
 
     public Game() {
-        money = 200;
+        money = 100;
+        dealTo = 1;
+
         cols.add(new ArrayList<Card>());
         cols.add(new ArrayList<Card>());
         cols.add(new ArrayList<Card>());
+
         error = false;
+        hasSplit = false;
+        dealerDone =false;
     }
 
     public void buildDeck() {
@@ -47,12 +62,14 @@ public class Game {
 
     public void dealHand() {
         if (money > 1) {
-            money = money - 2;
+            money = money - BET_SIZE;
             dealerTotal = 0;
             playerTotal = 0;
-            doubleDownTotal = 0;
+            splitTotal = 0;
 
             // Dealer gets a single visible card
+            cols.get(0).add(deck.get(deck.size() - 1));
+            deck.remove(deck.size() - 1);
             cols.get(0).add(deck.get(deck.size() - 1));
             deck.remove(deck.size() - 1);
 
@@ -61,32 +78,154 @@ public class Game {
             deck.remove(deck.size() - 1);
             cols.get(1).add(deck.get(deck.size() - 1));
             deck.remove(deck.size() - 1);
-
-            updateTotals();
+            
 
         } else {
-            // USER CANNOT PLAY; must refresh game
+            error = true;
         }
     }
 
-    public void updateTotals() {
-        for (int i = 0; i < 3; i++) {
-            int tempTotal = 0, t = 0;
-            for (int j = 0; j < cols.get(i).size(); j++) {
-                Card tempCard = getCard(i, j);
-                t = tempCard.getValue();
+    // Deals one card to a specific column, i.e. player, dealer, double down
+    // Will
+    public void dealOne (int column) {
+        cols.get(column).add(deck.get(deck.size()-1));
+        deck.remove(deck.size()-1);
+        error = false;
 
-                if (t < 11) {
-                    tempTotal = tempTotal + t;
-                } else if ((t > 10) && (t < 14)) {
+        determineOver21();
+    }
+
+    public void doubleDown () {
+        if (cols.get(PLAYER_COL).size() == 2 && noWinner()) {
+            dealOne(1);
+            money = money - BET_SIZE;
+            error = false;
+            dealerPlay();
+            winner();
+        }
+        else {
+            error = true;
+        }
+    }
+
+    public void split () {
+        if (cols.get(PLAYER_COL).size() == 2 && noWinner()) {
+            if (cols.get(PLAYER_COL).get(0).getValue() == cols.get(PLAYER_COL).get(1).getValue()) {
+                hasSplit = true;
+                cols.get(SPLIT_COL).add(cols.get(PLAYER_COL).get(1));
+                cols.get(PLAYER_COL).remove(1);
+                money = money - BET_SIZE;
+                error = false;
+            }
+            else {
+                error = true;
+            }
+        }
+        else {
+            error = true;
+        }
+    }
+
+    public void dealerPlay () {
+
+        while (true) {
+            calculateTotals();
+
+            if (dealerTotal < 17) {
+                dealOne(DEALER_COL);
+            }
+            else {
+                dealerDone = true;
+                break;
+            }
+        }
+    }
+
+    //small helper to update who is being dealt to, player or split
+    public void updateDealTo () {
+        dealTo = 2;
+    }
+
+    public void winner () {
+        calculateTotals();
+
+        if (playerTotal > dealerTotal) {
+            playerWon = true;
+            dealerWon = false;
+            money = money + 4;
+        }
+        else {
+            dealerWon = true;
+            playerWon = false;
+        }
+
+        if (hasSplit && splitTotal > dealerTotal) {
+            playerWon = true;
+            dealerWon = false;
+            money = money + 4;
+        }
+    }
+
+    public void resetGame () {
+        if (!noWinner()) {
+
+            cols.get(DEALER_COL).clear();
+            cols.get(PLAYER_COL).clear();
+            cols.get(SPLIT_COL).clear();
+
+            deck.clear();
+
+            buildDeck();
+            shuffle();
+
+            error = false;
+            hasSplit = false;
+            dealerDone =false;
+            playerWon = false;
+            dealerWon = false;
+            dealTo = 1;
+
+            dealHand();
+        }
+        else {
+            error = true;
+        }
+    }
+
+    public void calculateTotals() {
+        Card tempCard;
+        int tempTotal, currValue;
+        
+        for (int i = 0; i < 3; i++) {
+            tempTotal = 0;
+
+
+            for (int j = 0; j < cols.get(i).size(); j++) {
+               
+                tempCard = getCard(i, j);
+                currValue = tempCard.getValue();
+
+                //handle regular cards
+                if (currValue < 11) {
+                    tempTotal = tempTotal + currValue;
+                } 
+                //handle royal cards
+                else if ((10 < currValue) && (currValue < 14)) {
                     tempTotal += 10;
-                } else {
+                } 
+                //handle aces
+                else {
+                    //don't bust
                     if (tempTotal > 10) {
                         tempTotal += 1;
-                    } else {
+                    }
+                    //add high ace if we don't bust
+                    else {
                         tempTotal += 11;
                     }
                 }
+                
+                //update the appropriate total
                 switch (i) {
                     case 0:
                         dealerTotal = tempTotal;
@@ -95,7 +234,7 @@ public class Game {
                         playerTotal = tempTotal;
                         break;
                     case 2:
-                        doubleDownTotal = tempTotal;
+                        splitTotal = tempTotal;
                         break;
                     default:
                         break;
@@ -114,15 +253,36 @@ public class Game {
         deck.remove(c3);
     }
 
-    private Card getCard(int columnNumber, int j) {
-        return this.cols.get(columnNumber).get(this.cols.get(columnNumber).size()-(1 + j));
+    private Card getCard(int columnNumber, int rowNumber) {
+        return this.cols.get(columnNumber).get(rowNumber);
     }
 
-    private boolean colHasCards(int colNumber) {
+    public void determineOver21 () {
+        calculateTotals();
+
+        if (dealerTotal > 21) {
+            dealerWon = false;
+            playerWon = true;
+        }
+        if (playerTotal > 21) {
+            dealerWon = true;
+            playerWon = false;
+        }
+    }
+
+    public boolean colHasCards(int colNumber) {
         if(this.cols.get(colNumber).size()>0){
             return true;
         }
         return false;
+    }
+
+    public boolean noWinner () {
+        if (!playerWon && !dealerWon) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // End of GAME CLASS FUNCTIONS
